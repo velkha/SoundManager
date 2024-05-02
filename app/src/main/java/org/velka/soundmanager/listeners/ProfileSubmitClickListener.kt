@@ -16,8 +16,21 @@ class ProfileSubmitClickListener(private val dialog: Dialog, private val context
         val name = dialog.findViewById<EditText>(R.id.editTextName).text.toString()
         val startTime = dialog.findViewById<TimePicker>(R.id.timePickerStart).hour.toString() + ":" + dialog.findViewById<TimePicker>(R.id.timePickerStart).minute.toString()
         val endTime = dialog.findViewById<TimePicker>(R.id.timePickerEnd).hour.toString() + ":" + dialog.findViewById<TimePicker>(R.id.timePickerEnd).minute.toString()
-        val daysOfWeek = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun").filter { day ->
+        /*val daysOfWeek = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun").filter { day ->
             dialog.findViewById<ToggleButton>(context.resources.getIdentifier("toggleButton$day", "id", context.packageName)).isChecked
+        }*/
+        val daysOfWeek = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun").filter { day ->
+            val toggleButtonId = when(day) {
+                "Mon" -> R.id.toggleButtonMon
+                "Tue" -> R.id.toggleButtonTue
+                "Wed" -> R.id.toggleButtonWed
+                "Thu" -> R.id.toggleButtonThu
+                "Fri" -> R.id.toggleButtonFri
+                "Sat" -> R.id.toggleButtonSat
+                "Sun" -> R.id.toggleButtonSun
+                else -> throw IllegalArgumentException("Invalid day: $day")
+            }
+            dialog.findViewById<ToggleButton>(toggleButtonId).isChecked
         }
 
         // Create a new Profile object
