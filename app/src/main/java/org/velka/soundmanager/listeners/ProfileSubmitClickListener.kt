@@ -48,8 +48,18 @@ class ProfileSubmitClickListener(private val dialog: Dialog, private val context
         val jsonString = Gson().toJson(profile)
 
         // Save the JSON string to a file
-        context.openFileOutput("profiles.json", Context.MODE_PRIVATE).use {
+        /*context.openFileOutput("profiles.json", Context.MODE_PRIVATE).use {
             it.write(jsonString.toByteArray())
+        }*/
+        //Open the file and save it as a new member of a json array
+        val file = context.openFileInput("profiles.json")
+        val jsonStringArray = file.bufferedReader().use { it.readText() }
+        val jsonArray = Gson().fromJson(jsonStringArray, Array<SoundProfile>::class.java).toMutableList()
+        jsonArray.add(profile)
+        val newJsonString = Gson().toJson(jsonArray)
+        context.openFileOutput("profiles.json", Context.MODE_PRIVATE).use {
+            it.write(newJsonString.toByteArray())
         }
+
     }
 }
