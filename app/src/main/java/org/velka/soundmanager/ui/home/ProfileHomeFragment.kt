@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.velka.soundmanager.adapters.ProfileGridAdapter
+import org.velka.soundmanager.controllers.ProfileHomeController
 import org.velka.soundmanager.databinding.FragmentHomeBinding
 import org.velka.soundmanager.model.SoundProfile
+import org.velka.soundmanager.utils.PROFILE_JSON_FILENAME
 
 class ProfileHomeFragment : Fragment() {
 
@@ -50,21 +52,15 @@ class ProfileHomeFragment : Fragment() {
         return root
     }
 
-    private fun loadProfiles(): List<SoundProfile> {
-        val gson = Gson()
-        val profiles = mutableListOf<SoundProfile>()
-
-        // Open the file and read the JSON string
-        val jsonString = context?.openFileInput("profiles.json")?.bufferedReader().use { it?.readText() }
-
-        // Convert the JSON string to a SoundProfile object and add it to the list
-        if (jsonString != null) {
-            val type = object : TypeToken<List<SoundProfile>>() {}.type
-            profiles.addAll(gson.fromJson(jsonString, type))
-        }
-
-        return profiles
+    private fun loadProfiles(): MutableList<SoundProfile> {
+        val profileHomeController = ProfileHomeController(requireContext())
+        return profileHomeController.loadProfiles()
     }
+
+    fun addProfileToAdapter(profile: SoundProfile) {
+        (viewAdapter as ProfileGridAdapter).addProfile(profile)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

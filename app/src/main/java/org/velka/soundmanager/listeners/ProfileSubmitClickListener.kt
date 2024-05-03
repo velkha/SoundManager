@@ -6,9 +6,14 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TimePicker
 import android.widget.ToggleButton
+import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import org.velka.soundmanager.R
+import org.velka.soundmanager.adapters.ProfileGridAdapter
+import org.velka.soundmanager.controllers.ProfileHomeController
 import org.velka.soundmanager.model.SoundProfile
+import org.velka.soundmanager.ui.home.ProfileHomeFragment
+import org.velka.soundmanager.utils.PROFILE_JSON_FILENAME
 
 class ProfileSubmitClickListener(private val dialog: Dialog, private val context: Context) : View.OnClickListener {
     override fun onClick(v: View?) {
@@ -44,22 +49,7 @@ class ProfileSubmitClickListener(private val dialog: Dialog, private val context
     }
 
     private fun saveProfile(context: Context, profile: SoundProfile) {
-        // Convert the Profile object to a JSON string
-        val jsonString = Gson().toJson(profile)
-
-        // Save the JSON string to a file
-        /*context.openFileOutput("profiles.json", Context.MODE_PRIVATE).use {
-            it.write(jsonString.toByteArray())
-        }*/
-        //Open the file and save it as a new member of a json array
-        val file = context.openFileInput("profiles.json")
-        val jsonStringArray = file.bufferedReader().use { it.readText() }
-        val jsonArray = Gson().fromJson(jsonStringArray, Array<SoundProfile>::class.java).toMutableList()
-        jsonArray.add(profile)
-        val newJsonString = Gson().toJson(jsonArray)
-        context.openFileOutput("profiles.json", Context.MODE_PRIVATE).use {
-            it.write(newJsonString.toByteArray())
-        }
-
+        val profileHomeController = ProfileHomeController(context)
+        profileHomeController.saveProfile(profile)
     }
 }
