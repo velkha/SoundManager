@@ -38,7 +38,7 @@ class ProfileHomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        viewManager = GridLayoutManager(context, 2) // 2 columns in the grid
+        viewManager = GridLayoutManager(context, 3) // 3 columns in the grid
         viewAdapter = ProfileGridAdapter(loadProfiles())
         /*val textView: TextView = binding.textHome
         homeViewModel.text.observe(viewLifecycleOwner) {

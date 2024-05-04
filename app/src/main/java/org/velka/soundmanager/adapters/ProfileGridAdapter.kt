@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.velka.soundmanager.R
+import org.velka.soundmanager.listeners.ProfileClickListener
 import org.velka.soundmanager.model.SoundProfile
 
 class ProfileGridAdapter(private var profiles: MutableList<SoundProfile>) : RecyclerView.Adapter<ProfileGridAdapter.ViewHolder>() {
@@ -24,7 +25,8 @@ class ProfileGridAdapter(private var profiles: MutableList<SoundProfile>) : Recy
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val profile = profiles[position]
         holder.profileName.text = profile.name
-        // Set the profile icon here if available
+        holder.profileIcon.setImageResource(R.drawable.ic_menu_camera)
+        holder.itemView.setOnClickListener(ProfileClickListener(profile, holder.itemView.context))
     }
 
     override fun getItemCount() = profiles.size
